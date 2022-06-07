@@ -1,6 +1,8 @@
 import { useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
+import authSlice from "../../store/auth";
 
 import LoginCSS from "./login.module.css";
 
@@ -8,6 +10,7 @@ const Login = () => {
   const navigate = useNavigate();
   const emailRef = useRef();
   const passwordRef = useRef();
+  const dispatch = useDispatch();
 
   const [isValidEmailEntered, setIsValidEmailEntered] = useState(false);
   const [isEmailTouched, setIsEmailTouched] = useState(false);
@@ -87,6 +90,7 @@ const Login = () => {
       cookies.set("loggedInUser", emailRef.current.value, {
         expires: new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000),
       });
+      dispatch(authSlice.actions.login());
       navigate("/");
     }
   };

@@ -16,21 +16,29 @@ if (busData === null) {
       name: "APSRTC1120",
       departureLocation: "Vijayawada",
       ArraivalLocation: "Hyderabad",
+      departureTime: [21, 30],
+      arraivalTime: [4, 45],
     },
     {
       name: "APSRTC1121",
       departureLocation: "Vijayawada",
       ArraivalLocation: "Hyderabad",
+      departureTime: [20, 30],
+      arraivalTime: [4, 45],
     },
     {
       name: "TSRTC1120",
       ArraivalLocation: "Vijayawada",
       departureLocation: "Hyderabad",
+      departureTime: [20, 30],
+      arraivalTime: [5, 45],
     },
     {
       name: "TSRTC1120",
       ArraivalLocation: "Vijayawada",
       departureLocation: "Hyderabad",
+      departureTime: [21, 30],
+      arraivalTime: [5, 45],
     },
   ];
 }
