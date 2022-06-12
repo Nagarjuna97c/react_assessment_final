@@ -1,9 +1,31 @@
+import { useState, useRef, useEffect } from "react";
+import { useSelector } from "react-redux";
 import NavBar from "../NavBar/navbar";
 import HomeCSS from "./home.module.css";
+import Booking from "../Booking/booking";
 
-const cities = ["Banglore", "Hyderabad", "Vijayawada"];
+const cities = ["Bangalore", "Hyderabad", "Vijayawada"];
 
 const Home = () => {
+  const [displayBusdata, setdisplayBusdata] = useState();
+  const fromRef = useRef();
+  const toRef = useRef();
+
+  let busData = useSelector((state) => state.buses.busesData);
+
+  let filteredBuses;
+
+  const filterBuses = () => {
+    const departureLocation = fromRef.current.value;
+    const destinationLocation = toRef.current.value;
+    filteredBuses = JSON.parse(busData).filter(
+      (eachBus) =>
+        eachBus.departureLocation === departureLocation &&
+        eachBus.destination === destinationLocation
+    );
+    setdisplayBusdata(filteredBuses);
+  };
+
   const today = new Date();
   const year = `${today.getFullYear()}`;
   const month = `${today.getMonth() + 1}`;
@@ -21,7 +43,12 @@ const Home = () => {
           <label htmlFor="from" className={HomeCSS.inputLabel}>
             FROM
           </label>
-          <select className={HomeCSS.selectInput} name="from" id="from">
+          <select
+            className={HomeCSS.selectInput}
+            name="from"
+            id="from"
+            ref={fromRef}
+          >
             {cities.map((each) => (
               <option value={each} key={each}>
                 {each.toUpperCase()}
@@ -33,7 +60,7 @@ const Home = () => {
           <label htmlFor="to" className={HomeCSS.inputLabel}>
             TO
           </label>
-          <select className={HomeCSS.selectInput} name="to" id="to">
+          <select className={HomeCSS.selectInput} name="to" id="to" ref={toRef}>
             {cities.map((each) => (
               <option value={each} key={each + "1"}>
                 {each.toUpperCase()}
@@ -53,7 +80,47 @@ const Home = () => {
             className={HomeCSS.dateInput}
           />
         </div>
+        <button onClick={filterBuses}>Search</button>
       </div>
+
+      {
+        <div className={HomeCSS.busesDisplay}>
+          {displayBusdata !== undefined &&
+            displayBusdata.map((busData) => {
+              return (
+                <div className={HomeCSS.busContainer} key={busData.name}>
+                  <div className={HomeCSS.busTop}>
+                    <div className={HomeCSS.horizontal}>
+                      <h1>{busData.name}</h1>
+                      <p>{busData.type}</p>
+                    </div>
+                    <h1>Rs.{busData.price}</h1>
+                  </div>
+                  <div className={HomeCSS.busTop}>
+                    <div className={HomeCSS.vertical}>
+                      <h2>Departs At </h2>
+                      <h1>{busData.departureLocation}</h1>
+                      <h1>
+                        {busData.departureTime[0]}:{busData.departureTime[1]}
+                      </h1>
+                    </div>
+                    <div className={HomeCSS.vertical}>
+                      <h2>Destination is </h2>
+                      <h1>{busData.destination}</h1>
+                      {/* <h2>Destination is </h2> */}
+                      <h1>
+                        {busData.arraivalTime[0]}:{busData.arraivalTime[1]}
+                      </h1>
+                    </div>
+                  </div>
+                  <p>{busData.tickets} are available.</p>
+                  <button onClick={filterBuses}>Book Now</button>
+                </div>
+              );
+            })}
+        </div>
+      }
+      <Booking />
     </>
   );
 };

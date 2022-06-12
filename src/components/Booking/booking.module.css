@@ -1,0 +1,63 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 600px;
+  margin: auto;
+}
+
+.verticalFlex {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputlabel {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.inputbox {
+  background-color: transparent;
+  font-size: 18px;
+  outline: none;
+  width: 100%;
+  border-radius: 3px;
+  border-width: 1px;
+  padding: 5px 8px;
+}
+
+.buttonsContainer {
+  display: flex;
+  gap: 20px;
+}
+
+.button {
+  width: 25%;
+  color: #fff;
+  font-size: 20px;
+  border-radius: 6px;
+  background-color: blue;
+  padding: 8px 15px;
+}
+
+.button:hover {
+  background-color: green;
+  cursor: pointer;
+}
+
+.closeButton {
+  background-color: rgba(255, 0, 0, 0.601);
+}
+
+.closeButton:hover {
+  background-color: red;
+}
+
+.emptyInputField {
+  border: red;
+  background-color: rgba(255, 0, 0, 0.421);
+}
+
+.errorMessage {
+  color: red;
+}

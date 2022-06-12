@@ -33,18 +33,30 @@
   background-color: rgba(22, 125, 134, 0.303);
   border-radius: 7px;
   outline: none;
+  /* position: relative; */
 }
 
-/* input[type="date"]::-webkit-calendar-picker-indicator {
-  background: transparent;
-  bottom: 0;
-  color: transparent;
-  cursor: pointer;
-  height: auto;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 0;
-  color: black;
-} */
+.busesDisplay {
+  margin: 0 10%;
+  background-color: aqua;
+}
+
+.horizontal {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.busContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+  background-color: blueviolet;
+}
+
+.busTop {
+  /* width: 100%; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
