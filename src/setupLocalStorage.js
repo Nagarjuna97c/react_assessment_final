@@ -4,12 +4,14 @@ const busData = localStorage.getItem("busData");
 if (usersData === null) {
   console.log("setting users data");
   const setUsersData = [
-    { emailId: "nagarjuna@gmail.com", password: "polavarapu97@" },
+    {
+      emailId: "nagarjuna@gmail.com",
+      password: "polavarapu97@",
+      bookedTickets: [],
+    },
   ];
   localStorage.setItem("usersData", JSON.stringify(setUsersData));
 }
-
-console.log("usersdata", usersData);
 
 if (busData === null) {
   const setBusData = [
@@ -23,6 +25,7 @@ if (busData === null) {
       tickets: 30,
       price: 450,
       type: "Non-AC",
+      bookedTickets: {},
     },
     {
       name: "APSRTC1121",
@@ -34,6 +37,7 @@ if (busData === null) {
       tickets: 30,
       price: 450,
       type: "AC",
+      bookedTickets: {},
     },
     {
       name: "TSRTC1120",
@@ -45,6 +49,7 @@ if (busData === null) {
       tickets: 30,
       price: 550,
       type: "AC",
+      bookedTickets: {},
     },
     {
       name: "TSRTC1122",
@@ -56,17 +61,19 @@ if (busData === null) {
       tickets: 30,
       price: 550,
       type: "AC",
+      bookedTickets: {},
     },
     {
       name: "BANG1123",
-      destination: "Bangalore",
-      departureLocation: "Hyderabad",
+      departureLocation: "Bangalore",
+      destination: "Hyderabad",
       departureTime: [21, 30],
       arraivalTime: [9, 45],
       rating: 3.7,
       tickets: 30,
       price: 550,
       type: "AC",
+      bookedTickets: {},
     },
     {
       name: "APSRTC1126",
@@ -78,6 +85,7 @@ if (busData === null) {
       tickets: 30,
       price: 550,
       type: "AC",
+      bookedTickets: {},
     },
     {
       name: "BANG1120",
@@ -89,6 +97,7 @@ if (busData === null) {
       tickets: 30,
       price: 550,
       type: "AC",
+      bookedTickets: {},
     },
   ];
   localStorage.setItem("busesData", JSON.stringify(setBusData));

@@ -1,7 +1,10 @@
 import { useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import bookingCSS from "./booking.module.css";
 
-const Booking = () => {
+const Booking = (props) => {
+  const currentUser = useSelector((state) => state.auth.token);
+
   const [isValidTickets, setIsValidTickets] = useState(false);
   const [isTicketsTouched, setIsTicketsTouched] = useState(false);
 
@@ -30,7 +33,7 @@ const Booking = () => {
   const validateTicketsHandler = () => {
     const tickets = ticketsRef.current.value.trim();
 
-    if (tickets === "" || 1 >= parseInt(tickets) >= 4) {
+    if (tickets === "" || 1 >= parseInt(tickets) >= props.busData.tickets) {
       setIsValidTickets(false);
     }
     setIsTicketsTouched(true);
@@ -89,6 +92,64 @@ const Booking = () => {
     setIsAgeTouched(true);
   };
 
+  const bookTickets = (event) => {
+    event.preventDefault();
+    if (
+      isValidTickets &&
+      isValidName &&
+      isValidEmailEntered &&
+      isValidNumber &&
+      isAgeValid
+    ) {
+      const tickets = ticketsRef.current.value;
+      const name = nameRef.current.value;
+      const email = emailRef.current.value;
+      const phoneNumber = phoneNumberRef.current.value;
+      const age = ageRef.current.value;
+
+      const usersList = JSON.parse(localStorage.getItem("usersData"));
+
+      const updatedUsersList = usersList.map((user) => {
+        if (user.emailId === currentUser) {
+          const updatedUser = user;
+          updatedUser.bookedTickets.push({
+            tickets,
+            name,
+            email,
+            phoneNumber,
+            age,
+            travelDate: props.travelDate,
+            ...props.busData,
+          });
+          return updatedUser;
+        }
+        return user;
+      });
+
+      localStorage.setItem("usersData", JSON.stringify(updatedUsersList));
+
+      const busData = JSON.parse(localStorage.getItem("busesData"));
+      const updatedBusData = busData.map((busData) => {
+        if (busData.name === props.busData.name) {
+          const newBusData = { ...busData };
+          if (newBusData["bookedTickets"][props.travelDate] !== undefined) {
+            console.log(newBusData["bookedTickets"][props.travelDate]);
+            newBusData["bookedTickets"][props.travelDate] += +tickets;
+          } else {
+            newBusData["bookedTickets"][props.travelDate] = +tickets;
+          }
+
+          return newBusData;
+        }
+        return busData;
+      });
+
+      localStorage.setItem("busesData", JSON.stringify(updatedBusData));
+
+      props.openSuccessMessage();
+    }
+  };
+
   const isTicketsInvalid = !isValidTickets && isTicketsTouched;
   const isNameInvalid = !isValidName && isNameTouched;
   const isEmailInvalid = !isValidEmailEntered && isEmailTouched;
@@ -96,126 +157,135 @@ const Booking = () => {
   const isAgeInvalid = !isAgeValid && isAgeTouched;
 
   return (
-    <form className={bookingCSS.formContainer}>
-      <div className={bookingCSS.verticalFlex}>
-        <label className={bookingCSS.inputlabel} htmlFor="seats">
-          No. of seats
-        </label>
-        <input
-          id="seats"
-          className={`${bookingCSS.inputbox} ${
-            isTicketsInvalid ? bookingCSS.emptyInputField : ""
-          }`}
-          ref={ticketsRef}
-          onBlur={validateTicketsHandler}
-        />
-        {isTicketsInvalid ? (
-          <p className={bookingCSS.errorMessage}>
-            Enter a value between 1 and 4
-          </p>
-        ) : (
-          ""
-        )}
-      </div>
-      <div className={bookingCSS.verticalFlex}>
-        <label className={bookingCSS.inputlabel} htmlFor="name">
-          Enter your Name
-        </label>
-        <input
-          type="text"
-          id="name"
-          className={`${bookingCSS.inputbox} ${
-            isNameInvalid ? bookingCSS.emptyInputField : ""
-          }`}
-          ref={nameRef}
-          onBlur={validateNameHandler}
-        />
-        {isNameInvalid ? (
-          <p className={bookingCSS.errorMessage}>
-            Name should be between 8 to 20 characters
-          </p>
-        ) : (
-          ""
-        )}
-      </div>
-      <div className={bookingCSS.verticalFlex}>
-        <label className={bookingCSS.inputlabel} htmlFor="email">
-          Enter your Email
-        </label>
-        <input
-          type="email"
-          id="email"
-          className={`${bookingCSS.inputbox} ${
-            isEmailInvalid ? bookingCSS.emptyInputField : ""
-          }`}
-          onBlur={emailValidationHandler}
-          ref={emailRef}
-        />
-        {isEmailInvalid ? (
-          <p className={bookingCSS.errorMessage}>{emailErrorMessage.message}</p>
-        ) : (
-          ""
-        )}
-      </div>
-      <div className={bookingCSS.verticalFlex}>
-        <label className={bookingCSS.inputlabel} htmlFor="number">
-          Enter your phone number
-        </label>
-        <input
-          id="number"
-          className={`${bookingCSS.inputbox} ${
-            isNumberInvalid ? bookingCSS.emptyInputField : ""
-          }`}
-          onBlur={validateNumberHandler}
-          ref={phoneNumberRef}
-        />
-        {isNumberInvalid ? (
-          <p className={bookingCSS.errorMessage}>
-            Enter a valid phone number(without country code).
-          </p>
-        ) : (
-          ""
-        )}
-      </div>
-      <div className={bookingCSS.verticalFlex}>
-        <label className={bookingCSS.inputlabel} htmlFor="age">
-          Enter your age
-        </label>
-        <input
-          id="age"
-          className={`${bookingCSS.inputbox} ${
-            isAgeInvalid ? bookingCSS.emptyInputField : ""
-          }`}
-          onBlur={validateAgeHandler}
-          ref={ageRef}
-        />
-        {isAgeInvalid ? (
-          <p className={bookingCSS.errorMessage}>Enter a valid age.</p>
-        ) : (
-          ""
-        )}
-      </div>
-      <div className={bookingCSS.verticalFlex}>
-        <label className={bookingCSS.inputlabel} htmlFor="gender">
-          Select your gender
-        </label>
-        <select name="gender" id="gender" className={bookingCSS.inputbox}>
-          <option defaultValue value="Male">
-            Male
-          </option>
-          <option value="Female">Female</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-      <div className={bookingCSS.buttonsContainer}>
-        <button className={bookingCSS.button}>Book Now</button>
-        <button
-          className={[bookingCSS.button, bookingCSS.closeButton].join(" ")}
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
+    <div className={bookingCSS.backdrop}>
+      <form className={bookingCSS.formContainer} onSubmit={bookTickets}>
+        <div className={bookingCSS.verticalFlex}>
+          <label className={bookingCSS.inputlabel} htmlFor="seats">
+            No. of seats
+          </label>
+          <input
+            id="seats"
+            className={`${bookingCSS.inputbox} ${
+              isTicketsInvalid ? bookingCSS.emptyInputField : ""
+            }`}
+            ref={ticketsRef}
+            onBlur={validateTicketsHandler}
+            onChange={() => setIsValidTickets(true)}
+          />
+          {isTicketsInvalid ? (
+            <p className={bookingCSS.errorMessage}>
+              Enter a value between 1 and {props.busData.tickets}
+            </p>
+          ) : (
+            ""
+          )}
+        </div>
+        <div className={bookingCSS.verticalFlex}>
+          <label className={bookingCSS.inputlabel} htmlFor="name">
+            Enter your Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            className={`${bookingCSS.inputbox} ${
+              isNameInvalid ? bookingCSS.emptyInputField : ""
+            }`}
+            ref={nameRef}
+            onBlur={validateNameHandler}
+            onChange={() => setIsValidName(true)}
+          />
+          {isNameInvalid ? (
+            <p className={bookingCSS.errorMessage}>
+              Name should be between 8 to 20 characters
+            </p>
+          ) : (
+            ""
+          )}
+        </div>
+        <div className={bookingCSS.verticalFlex}>
+          <label className={bookingCSS.inputlabel} htmlFor="email">
+            Enter your Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            className={`${bookingCSS.inputbox} ${
+              isEmailInvalid ? bookingCSS.emptyInputField : ""
+            }`}
+            onBlur={emailValidationHandler}
+            ref={emailRef}
+            onChange={() => setIsValidEmailEntered(true)}
+          />
+          {isEmailInvalid ? (
+            <p className={bookingCSS.errorMessage}>
+              {emailErrorMessage.message}
+            </p>
+          ) : (
+            ""
+          )}
+        </div>
+        <div className={bookingCSS.verticalFlex}>
+          <label className={bookingCSS.inputlabel} htmlFor="number">
+            Enter your phone number
+          </label>
+          <input
+            id="number"
+            className={`${bookingCSS.inputbox} ${
+              isNumberInvalid ? bookingCSS.emptyInputField : ""
+            }`}
+            onBlur={validateNumberHandler}
+            ref={phoneNumberRef}
+            onChange={() => setIsvalidNumber(true)}
+          />
+          {isNumberInvalid ? (
+            <p className={bookingCSS.errorMessage}>
+              Enter a valid phone number(without country code).
+            </p>
+          ) : (
+            ""
+          )}
+        </div>
+        <div className={bookingCSS.verticalFlex}>
+          <label className={bookingCSS.inputlabel} htmlFor="age">
+            Enter your age
+          </label>
+          <input
+            id="age"
+            className={`${bookingCSS.inputbox} ${
+              isAgeInvalid ? bookingCSS.emptyInputField : ""
+            }`}
+            onBlur={validateAgeHandler}
+            ref={ageRef}
+            onChange={() => setIsAgeValid(true)}
+          />
+          {isAgeInvalid ? (
+            <p className={bookingCSS.errorMessage}>Enter a valid age.</p>
+          ) : (
+            ""
+          )}
+        </div>
+        <div className={bookingCSS.verticalFlex}>
+          <label className={bookingCSS.inputlabel} htmlFor="gender">
+            Select your gender
+          </label>
+          <select name="gender" id="gender" className={bookingCSS.inputbox}>
+            <option defaultValue value="Male">
+              Male
+            </option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div className={bookingCSS.buttonsContainer}>
+          <button className={bookingCSS.button}>Book Now</button>
+          <button
+            className={[bookingCSS.button, bookingCSS.closeButton].join(" ")}
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 export default Booking;

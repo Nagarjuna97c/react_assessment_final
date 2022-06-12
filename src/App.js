@@ -9,28 +9,29 @@ import Cookies from "universal-cookie";
 import "./setupLocalStorage";
 import Home from "./components/Home/home";
 import busesDataSlice from "./store/busesData";
+import authSlice from "./store/auth";
 
 function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const auth = useSelector((state) => state.auth.isLoggedIn);
-  console.log(auth);
 
   useEffect(() => {
     const busesData = localStorage.getItem("busesData");
     dispatch(busesDataSlice.actions.setInitialData(busesData));
-  });
+  }, [dispatch]);
 
   useEffect(() => {
     const cookies = new Cookies();
-
     const loggedInUser = cookies.get("loggedInUser");
 
     if (loggedInUser !== undefined) {
+      dispatch(authSlice.actions.login());
+      dispatch(authSlice.actions.setAuthToken(loggedInUser));
       navigate("/");
     }
-  }, [navigate]);
+  }, [navigate, dispatch]);
 
   return (
     <Routes>

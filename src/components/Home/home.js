@@ -1,15 +1,23 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import NavBar from "../NavBar/navbar";
 import HomeCSS from "./home.module.css";
 import Booking from "../Booking/booking";
+import SuccessMessage from "../Booking/successMessage";
 
 const cities = ["Bangalore", "Hyderabad", "Vijayawada"];
 
 const Home = () => {
   const [displayBusdata, setdisplayBusdata] = useState();
+  const [bookingModalData, setBookingModalData] = useState({
+    display: false,
+    busData: {},
+  });
+  const [displaySuccessMessage, setDisplaySuccessMessage] = useState(false);
+
   const fromRef = useRef();
   const toRef = useRef();
+  const travelDateRef = useRef();
 
   let busData = useSelector((state) => state.buses.busesData);
 
@@ -18,12 +26,22 @@ const Home = () => {
   const filterBuses = () => {
     const departureLocation = fromRef.current.value;
     const destinationLocation = toRef.current.value;
+    console.log(departureLocation, destinationLocation);
     filteredBuses = JSON.parse(busData).filter(
       (eachBus) =>
         eachBus.departureLocation === departureLocation &&
         eachBus.destination === destinationLocation
     );
     setdisplayBusdata(filteredBuses);
+  };
+
+  const openSuccessMessage = () => {
+    setBookingModalData({ display: false, busData: {} });
+    setDisplaySuccessMessage(true);
+  };
+
+  const closeSuccessMessage = () => {
+    setDisplaySuccessMessage(false);
   };
 
   const today = new Date();
@@ -77,7 +95,9 @@ const Home = () => {
             allowinputtoggle="true"
             id="date"
             min={currentdate}
+            defaultValue={currentdate}
             className={HomeCSS.dateInput}
+            ref={travelDateRef}
           />
         </div>
         <button onClick={filterBuses}>Search</button>
@@ -87,6 +107,15 @@ const Home = () => {
         <div className={HomeCSS.busesDisplay}>
           {displayBusdata !== undefined &&
             displayBusdata.map((busData) => {
+              const bookedTickets =
+                busData.bookedTickets[travelDateRef.current.value];
+              let remTickets;
+              if (bookedTickets === undefined) {
+                remTickets = 30;
+              } else {
+                remTickets = 30 - bookedTickets;
+              }
+
               return (
                 <div className={HomeCSS.busContainer} key={busData.name}>
                   <div className={HomeCSS.busTop}>
@@ -113,14 +142,33 @@ const Home = () => {
                       </h1>
                     </div>
                   </div>
-                  <p>{busData.tickets} are available.</p>
-                  <button onClick={filterBuses}>Book Now</button>
+                  <p>{remTickets} are available.</p>
+                  <button
+                    onClick={() =>
+                      setBookingModalData({
+                        display: true,
+                        busData: { ...busData, tickets: remTickets },
+                      })
+                    }
+                  >
+                    Book Now
+                  </button>
                 </div>
               );
             })}
         </div>
       }
-      <Booking />
+      {bookingModalData.display && (
+        <Booking
+          busData={bookingModalData.busData}
+          travelDate={travelDateRef.current.value}
+          openSuccessMessage={openSuccessMessage}
+        />
+      )}
+      {displaySuccessMessage && (
+        <SuccessMessage closeSuccessMessage={closeSuccessMessage} />
+      )}
+      {/* <SuccessMessage /> */}
     </>
   );
 };
