@@ -1,5 +1,5 @@
 import "./App.css";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Login from "./components/login/login";
@@ -35,9 +35,11 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
+      {auth && <Route path="/" element={<Home />} />}
+      {auth && <Route path="*" element={<Navigate to="/" replace />} />}
+      {!auth && <Route path="/register" element={<Register />} />}
+      {!auth && <Route path="/login" element={<Login />} />}
+      {!auth && <Route path="*" element={<Navigate to="/login" replace />} />}
     </Routes>
   );
 }

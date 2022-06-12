@@ -93,6 +93,7 @@ const Booking = (props) => {
   };
 
   const bookTickets = (event) => {
+    console.log("book called");
     event.preventDefault();
     if (
       isValidTickets &&
@@ -147,6 +148,12 @@ const Booking = (props) => {
       localStorage.setItem("busesData", JSON.stringify(updatedBusData));
 
       props.openSuccessMessage();
+    } else {
+      validateTicketsHandler();
+      validateNameHandler();
+      emailValidationHandler();
+      validateNumberHandler();
+      validateAgeHandler();
     }
   };
 
@@ -277,9 +284,13 @@ const Booking = (props) => {
           </select>
         </div>
         <div className={bookingCSS.buttonsContainer}>
-          <button className={bookingCSS.button}>Book Now</button>
+          <button type="submit" className={bookingCSS.button}>
+            Book Now
+          </button>
           <button
+            type="button"
             className={[bookingCSS.button, bookingCSS.closeButton].join(" ")}
+            onClick={() => props.closeBookingModal()}
           >
             Cancel
           </button>

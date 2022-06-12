@@ -5,22 +5,42 @@ import RegisterCSS from "./register.module.css";
 const Register = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
+  const nameRef = useRef();
+
+  const usersData = JSON.parse(localStorage.getItem("usersData"));
+
+  const [isValidName, setIsValidName] = useState(false);
+  const [isNameTouched, setIsNameTouched] = useState(false);
 
   const [isValidEmailEntered, setIsValidEmailEntered] = useState(false);
   const [isEmailTouched, setIsEmailTouched] = useState(false);
-  const [isValidPasswordEntered, setIsValidPasswordEntered] = useState(false);
-  const [isPasswordTouched, setIsPasswordTouched] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState({
     errorExists: false,
     message: "",
   });
+
+  const [isValidPasswordEntered, setIsValidPasswordEntered] = useState(false);
+  const [isPasswordTouched, setIsPasswordTouched] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState({
     errorExists: false,
     message: "",
   });
 
+  const validateNameHandler = () => {
+    const name = nameRef.current.value.trim();
+
+    if (name === "" || 8 >= name.length >= 20) {
+      setIsValidName(false);
+    }
+    setIsNameTouched(true);
+  };
+
   const emailValidationHandler = () => {
     const emailInputValue = emailRef.current.value;
+    const emailAlreadyExists = usersData.find(
+      (user) => user.emailId === emailInputValue
+    );
+
     if (emailInputValue === "") {
       setIsValidEmailEntered(false);
       setEmailErrorMessage({
@@ -38,6 +58,12 @@ const Register = () => {
       setEmailErrorMessage({
         errorExists: true,
         message: "Invalid email.Email does not contain .com",
+      });
+    } else if (emailAlreadyExists) {
+      setIsValidEmailEntered(false);
+      setEmailErrorMessage({
+        errorExists: true,
+        message: "Email already exists.Please choose another email.",
       });
     } else {
       setIsValidEmailEntered(true);
@@ -99,6 +125,7 @@ const Register = () => {
 
   const isEmailInvalid = !isValidEmailEntered & isEmailTouched;
   const isPasswordInvalid = !isValidPasswordEntered & isPasswordTouched;
+  const isNameInvalid = !isValidName && isNameTouched;
 
   return (
     <div className={RegisterCSS.maincontainer}>
@@ -106,6 +133,28 @@ const Register = () => {
         className={RegisterCSS.formcontainer}
         onSubmit={registerFormHandler}
       >
+        <div className={RegisterCSS.inputContainer}>
+          <label className={RegisterCSS.inputlabel} htmlFor="name">
+            Enter your Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            className={`${RegisterCSS.inputbox} ${
+              isNameInvalid ? RegisterCSS.emptyInputField : ""
+            }`}
+            ref={nameRef}
+            onBlur={validateNameHandler}
+            onChange={() => setIsValidName(true)}
+          />
+          {isNameInvalid ? (
+            <p className={RegisterCSS.errorMessage}>
+              Name should be between 8 to 20 characters
+            </p>
+          ) : (
+            ""
+          )}
+        </div>
         <div className={RegisterCSS.inputContainer}>
           <label htmlFor="email" className={RegisterCSS.inputlabel}>
             Email

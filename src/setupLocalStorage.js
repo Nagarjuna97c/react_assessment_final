@@ -1,5 +1,5 @@
 const usersData = localStorage.getItem("usersData");
-const busData = localStorage.getItem("busData");
+const busData = localStorage.getItem("busesData");
 
 if (usersData === null) {
   console.log("setting users data");

@@ -1,20 +1,21 @@
 .maincontainer {
   min-height: 100vh;
+  background-color: rgba(0, 51, 128, 0.648);
   display: flex;
   align-items: center;
-  background-color: #f9484a;
-  background-image: linear-gradient(315deg, #f9484a 0%, #fbd72b 74%);
+  justify-content: center;
 }
 
 .formcontainer {
-  height: 300px;
   width: 80%;
+  max-width: 600px;
   padding: 3%;
-  background-color: aliceblue;
+  background-color: rgba(255, 255, 255, 0.305);
   display: flex;
   flex-direction: column;
   margin: 0 10%;
   border-radius: 8px;
+  color: #fff;
 }
 
 .inputContainer {
@@ -29,12 +30,12 @@
 }
 
 .inputbox {
-  background-color: transparent;
+  background-color: #fff;
+  border: none;
   font-size: 18px;
   outline: none;
   width: 100%;
   border-radius: 3px;
-  border-width: 1px;
   padding: 5px 8px;
 }
 

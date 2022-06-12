@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-import { useSelector } from "react-redux";
 import NavBar from "../NavBar/navbar";
 import HomeCSS from "./home.module.css";
 import Booking from "../Booking/booking";
@@ -19,7 +18,9 @@ const Home = () => {
   const toRef = useRef();
   const travelDateRef = useRef();
 
-  let busData = useSelector((state) => state.buses.busesData);
+  let busData = localStorage.getItem("busesData");
+
+  console.log("component rendered");
 
   let filteredBuses;
 
@@ -35,6 +36,10 @@ const Home = () => {
     setdisplayBusdata(filteredBuses);
   };
 
+  const closeBookingModal = () => {
+    setBookingModalData({ display: false, busData: {} });
+  };
+
   const openSuccessMessage = () => {
     setBookingModalData({ display: false, busData: {} });
     setDisplaySuccessMessage(true);
@@ -42,6 +47,7 @@ const Home = () => {
 
   const closeSuccessMessage = () => {
     setDisplaySuccessMessage(false);
+    filterBuses();
   };
 
   const today = new Date();
@@ -54,7 +60,7 @@ const Home = () => {
   const currentdate = `${year}-${month01}-${date01}`;
 
   return (
-    <>
+    <div className={HomeCSS.mainContainer}>
       <NavBar />
       <div className={HomeCSS.inputsContainer}>
         <div className={HomeCSS.inputFieldContainer}>
@@ -108,7 +114,8 @@ const Home = () => {
           {displayBusdata !== undefined &&
             displayBusdata.map((busData) => {
               const bookedTickets =
-                busData.bookedTickets[travelDateRef.current.value];
+                busData["bookedTickets"][travelDateRef.current.value];
+              console.log(travelDateRef.current.value);
               let remTickets;
               if (bookedTickets === undefined) {
                 remTickets = 30;
@@ -163,13 +170,13 @@ const Home = () => {
           busData={bookingModalData.busData}
           travelDate={travelDateRef.current.value}
           openSuccessMessage={openSuccessMessage}
+          closeBookingModal={closeBookingModal}
         />
       )}
       {displaySuccessMessage && (
         <SuccessMessage closeSuccessMessage={closeSuccessMessage} />
       )}
-      {/* <SuccessMessage /> */}
-    </>
+    </div>
   );
 };
 
