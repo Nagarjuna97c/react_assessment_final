@@ -106,7 +106,9 @@ const Home = () => {
             ref={travelDateRef}
           />
         </div>
-        <button onClick={filterBuses}>Search</button>
+        <button className={HomeCSS.button} onClick={filterBuses}>
+          Search
+        </button>
       </div>
 
       {
@@ -125,32 +127,45 @@ const Home = () => {
 
               return (
                 <div className={HomeCSS.busContainer} key={busData.name}>
-                  <div className={HomeCSS.busTop}>
-                    <div className={HomeCSS.horizontal}>
-                      <h1>{busData.name}</h1>
-                      <p>{busData.type}</p>
+                  <div className={HomeCSS.horizontal}>
+                    <div className={HomeCSS.topHorizontal}>
+                      <h1 className={HomeCSS.boldBusData}>{busData.name}</h1>
+                      <span className={HomeCSS.busType}>{busData.type}</span>
                     </div>
-                    <h1>Rs.{busData.price}</h1>
+                    <p className={HomeCSS.rating}>&#9733;{busData.rating}</p>
+                  </div>
+                  <div className={HomeCSS.horizontal}>
+                    <p className={HomeCSS.price}>Rs.{busData.price}</p>
                   </div>
                   <div className={HomeCSS.busTop}>
                     <div className={HomeCSS.vertical}>
-                      <h2>Departs At </h2>
-                      <h1>{busData.departureLocation}</h1>
-                      <h1>
-                        {busData.departureTime[0]}:{busData.departureTime[1]}
-                      </h1>
+                      <p className={HomeCSS.description}>Departs From </p>
+                      <p className={HomeCSS.boldBusData}>
+                        {busData.departureLocation}
+                      </p>
+                      <p className={HomeCSS.description}>At </p>
+                      <p className={HomeCSS.boldBusData}>
+                        {String(busData.departureTime[0]).padStart(`2`, 0)}:
+                        {String(busData.departureTime[1]).padStart(`2`, 0)}
+                      </p>
                     </div>
                     <div className={HomeCSS.vertical}>
-                      <h2>Destination is </h2>
-                      <h1>{busData.destination}</h1>
-                      {/* <h2>Destination is </h2> */}
-                      <h1>
-                        {busData.arraivalTime[0]}:{busData.arraivalTime[1]}
-                      </h1>
+                      <p className={HomeCSS.description}>Destination is </p>
+                      <p className={HomeCSS.boldBusData}>
+                        {busData.destination}
+                      </p>
+                      <p className={HomeCSS.description}>At </p>
+                      <p className={HomeCSS.boldBusData}>
+                        {String(busData.arraivalTime[0]).padStart(`2`, 0)}:
+                        {String(busData.arraivalTime[1]).padStart(`2`, 0)}
+                      </p>
                     </div>
                   </div>
-                  <p>{remTickets} are available.</p>
+                  <p className={HomeCSS.remTickets}>
+                    {remTickets} tickets are available for booking.
+                  </p>
                   <button
+                    className={HomeCSS.bookNowButton}
                     onClick={() =>
                       setBookingModalData({
                         display: true,
