@@ -117,6 +117,7 @@ const Register = () => {
     event.preventDefault();
     const enteredEmail = emailRef.current.value;
     const enteredPassword = passwordRef.current.value;
+    const enteredName = nameRef.current.value;
 
     const usersData = JSON.parse(localStorage.getItem("usersData"));
     const selectUser = usersData.find((each) => each.emailId === enteredEmail);
@@ -130,7 +131,12 @@ const Register = () => {
         message: "Email already exists.Please enter a new email..",
       });
     } else if (isValidEmailEntered && isValidPasswordEntered && isValidName) {
-      usersData.push({ emailId: enteredEmail, password: enteredPassword });
+      usersData.push({
+        username: enteredName,
+        emailId: enteredEmail,
+        password: enteredPassword,
+        bookedTickets: [],
+      });
       localStorage.setItem("usersData", JSON.stringify(usersData));
     }
   };

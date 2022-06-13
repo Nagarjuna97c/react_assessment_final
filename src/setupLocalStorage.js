@@ -5,6 +5,7 @@ if (usersData === null) {
   console.log("setting users data");
   const setUsersData = [
     {
+      username: "Hari Nagarjuna",
       emailId: "nagarjuna@gmail.com",
       password: "polavarapu97@",
       bookedTickets: [],
