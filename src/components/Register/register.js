@@ -1,11 +1,13 @@
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import RegisterCSS from "./register.module.css";
 
 const Register = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const nameRef = useRef();
+
+  const navigate = useNavigate();
 
   const usersData = JSON.parse(localStorage.getItem("usersData"));
 
@@ -138,6 +140,7 @@ const Register = () => {
         bookedTickets: [],
       });
       localStorage.setItem("usersData", JSON.stringify(usersData));
+      navigate("/login", { replace: true });
     }
   };
 
