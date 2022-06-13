@@ -110,17 +110,30 @@ const Booking = (props) => {
 
       const usersList = JSON.parse(localStorage.getItem("usersData"));
 
+      console.log(tickets);
+
       const updatedUsersList = usersList.map((user) => {
         if (user.emailId === currentUser) {
           const updatedUser = user;
+          const {
+            name: busname,
+            departureLocation,
+            destination,
+            departureTime,
+            arraivalTime,
+          } = props.busData;
           updatedUser.bookedTickets.push({
+            busname,
+            departureLocation,
+            destination,
+            departureTime,
+            arraivalTime,
             tickets,
             name,
             email,
             phoneNumber,
             age,
             travelDate: props.travelDate,
-            ...props.busData,
           });
           return updatedUser;
         }

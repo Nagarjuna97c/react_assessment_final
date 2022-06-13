@@ -103,6 +103,16 @@ const Register = () => {
     setIsPasswordTouched(true);
   };
 
+  const defaultValidateOnSubmit = () => {
+    setIsNameTouched(true);
+    setIsPasswordTouched(true);
+    setIsPasswordTouched(true);
+
+    validateNameHandler();
+    emailValidationHandler();
+    passwordValidationHandler();
+  };
+
   const registerFormHandler = (event) => {
     event.preventDefault();
     const enteredEmail = emailRef.current.value;
@@ -111,13 +121,15 @@ const Register = () => {
     const usersData = JSON.parse(localStorage.getItem("usersData"));
     const selectUser = usersData.find((each) => each.emailId === enteredEmail);
 
+    defaultValidateOnSubmit();
+
     if (selectUser !== undefined) {
       setIsValidEmailEntered(false);
       setEmailErrorMessage({
         errorExists: true,
         message: "Email already exists.Please enter a new email..",
       });
-    } else {
+    } else if (isValidEmailEntered && isValidPasswordEntered && isValidName) {
       usersData.push({ emailId: enteredEmail, password: enteredPassword });
       localStorage.setItem("usersData", JSON.stringify(usersData));
     }
@@ -203,11 +215,7 @@ const Register = () => {
             ""
           )}
         </div>
-        <button
-          disabled={!(isValidEmailEntered && isValidPasswordEntered)}
-          type="submit"
-          className={RegisterCSS.button}
-        >
+        <button type="submit" className={RegisterCSS.button}>
           Register
         </button>
         <Link to="/login" className={RegisterCSS.center}>

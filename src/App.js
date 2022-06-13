@@ -1,5 +1,11 @@
 import "./App.css";
-import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Login from "./components/login/login";
@@ -10,10 +16,12 @@ import "./setupLocalStorage";
 import Home from "./components/Home/home";
 import busesDataSlice from "./store/busesData";
 import authSlice from "./store/auth";
+import BookedTickets from "./components/BookedTickets/bookedTickets";
 
 function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const auth = useSelector((state) => state.auth.isLoggedIn);
 
@@ -29,12 +37,15 @@ function App() {
     if (loggedInUser !== undefined) {
       dispatch(authSlice.actions.login());
       dispatch(authSlice.actions.setAuthToken(loggedInUser));
-      navigate("/");
+      if (location.pathname === "/login" || location.pathname === "/register") {
+        navigate("/");
+      }
     }
-  }, [navigate, dispatch]);
+  }, [location.pathname, navigate, dispatch]);
 
   return (
     <Routes>
+      {auth && <Route path="/booked-tickets" element={<BookedTickets />} />}
       {auth && <Route path="/" element={<Home />} />}
       {auth && <Route path="*" element={<Navigate to="/" replace />} />}
       {!auth && <Route path="/register" element={<Register />} />}

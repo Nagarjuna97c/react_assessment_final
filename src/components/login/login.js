@@ -69,6 +69,12 @@ const Login = () => {
     const cookies = new Cookies();
 
     event.preventDefault();
+
+    setIsEmailTouched(true);
+    setIsPasswordTouched(true);
+    emailValidationHandler();
+    passwordValidationHandler();
+
     const usersData = JSON.parse(localStorage.getItem("usersData"));
     const selectUser = usersData.find(
       (each) => each.emailId === emailRef.current.value
@@ -91,7 +97,7 @@ const Login = () => {
         expires: new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000),
       });
       dispatch(authSlice.actions.login());
-      navigate("/");
+      navigate("/", { replace: true });
     }
   };
 
@@ -147,11 +153,7 @@ const Login = () => {
             ""
           )}
         </div>
-        <button
-          disabled={!(isValidEmailEntered && isValidPasswordEntered)}
-          type="submit"
-          className={LoginCSS.button}
-        >
+        <button type="submit" className={LoginCSS.button}>
           Login
         </button>
         <Link to="/register" className={LoginCSS.center}>

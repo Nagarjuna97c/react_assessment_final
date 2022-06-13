@@ -1,0 +1,100 @@
+.bokingsContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: #2b00ff60;
+  width: 100vw;
+  min-height: 100vw;
+  align-items: center;
+  padding-top: 15px;
+  gap: 15px;
+}
+
+.horizontal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+.bookingsContainer {
+  width: 50%;
+  min-width: 400px;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+  background-color: rgba(46, 52, 237, 0.507);
+  padding: 15px;
+  border-radius: 8px;
+  opacity: 1;
+}
+
+.busTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 1;
+}
+
+.rating {
+  background-color: rgba(0, 128, 0, 0.679);
+  border-radius: 8px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #fff;
+  display: flex;
+  padding: 3px 5px;
+}
+
+.boldBusData {
+  font-size: 20px;
+  font-weight: 500;
+  /* color: #fff; */
+}
+
+.topHorizontal {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.busType {
+  width: 30px;
+  background-color: green;
+  color: #fff;
+  padding: 2px 3px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.description {
+  font-size: 20px;
+  text-decoration: underline;
+  font-style: italic;
+  color: #fff;
+}
+
+.description1 {
+  font-size: 20px;
+  font-weight: normal;
+  color: #fff;
+}
+
+.remTickets {
+  text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+  color: #2a00ff;
+}
+
+.bookNowButton {
+  width: 25%;
+  color: #fff;
+  font-size: 20px;
+  margin-top: 10px;
+  border-radius: 6px;
+  background-color: blue;
+  padding: 8px 15px;
+  align-self: center;
+}

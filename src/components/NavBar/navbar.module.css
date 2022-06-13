@@ -3,4 +3,41 @@
   padding: 14px 10px;
   background-color: aliceblue;
   justify-content: space-between;
+  align-items: center;
+}
+
+.heading {
+  font-size: 25px;
+  color: blueviolet;
+  font-style: oblique;
+}
+
+.rightNav {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.button {
+  outline: none;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  font-size: 20px;
+  border-radius: 6px;
+  background-color: blue;
+  padding: 5px 10px;
+}
+
+.navLink {
+  font-size: 20px;
+  color: rgb(65, 8, 171);
+  text-decoration: none;
+}
+
+.selectedNavLink {
+  font-size: 20px;
+  color: rgb(8, 97, 26);
+  text-decoration: none;
+  font-weight: 500;
 }

@@ -1,6 +1,7 @@
 .mainContainer {
   background-image: url("../../Images/bus-background.jpg");
-  height: 100vh;
+  height: 120vh;
+  background-attachment: fixed;
   background-size: cover;
   opacity: 0.7;
 }
@@ -14,6 +15,13 @@
   margin: 20px;
   gap: 20px;
   opacity: 1;
+  border-radius: 8px;
+}
+
+@media (width<982px) {
+  .inputsContainer {
+    flex-direction: column;
+  }
 }
 
 .inputFieldContainer {
@@ -31,8 +39,15 @@
   font-size: 20px;
 }
 
+@media (width<982px) {
+  .inputLabel {
+    width: 60px;
+  }
+}
+
 .selectInput {
   width: 20vw;
+  min-width: 200px;
   height: 45px;
   background-color: #fff;
   border-radius: 7px;
@@ -42,9 +57,16 @@
   font-size: 16px;
 }
 
+@media (width<982px) {
+  .selectInput {
+    width: 40vw;
+  }
+}
+
 .dateInput {
   border-width: 1px;
   width: 20vw;
+  min-width: 200px;
   height: 45px;
   background-color: #fff;
   border-radius: 7px;
@@ -55,7 +77,15 @@
   font-size: 16px;
 }
 
+@media (width<982px) {
+  .dateInput {
+    width: 40vw;
+  }
+}
+
 .button {
+  outline: none;
+  border: none;
   color: #fff;
   font-size: 20px;
   border-radius: 6px;
@@ -78,7 +108,8 @@
 }
 
 .busContainer {
-  width: 800px;
+  width: 50%;
+  min-width: 400px;
   max-width: 800px;
   display: flex;
   flex-direction: column;
@@ -96,19 +127,18 @@
 }
 
 .rating {
-  background-color: rgba(0, 128, 0, 0.679);
-  /* height: 30px; */
+  background-color: rgba(6, 94, 6, 0.816);
   border-radius: 8px;
   font-size: 22px;
   font-weight: bold;
   color: #fff;
   display: flex;
-  padding: 3px 5px;
+  padding: 1px 3px;
 }
 
 .boldBusData {
-  font-size: 25px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .topHorizontal {
@@ -118,21 +148,21 @@
 }
 
 .busType {
-  width: 30px;
+  font-size: 15px;
   background-color: green;
   color: #fff;
-  padding: 2px 3px;
+  padding: 1px 9px;
   border-radius: 8px;
   font-weight: bold;
 }
 
 .price {
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .description {
-  font-size: 22px;
+  font-size: 20px;
   text-decoration: underline;
   font-style: italic;
 }
@@ -145,7 +175,9 @@
 }
 
 .bookNowButton {
-  width: 25%;
+  outline: none;
+  border: none;
+  width: 140px;
   color: #fff;
   font-size: 20px;
   margin-top: 10px;

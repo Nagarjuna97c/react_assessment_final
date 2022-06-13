@@ -52,7 +52,10 @@
 }
 
 .button {
+  border: none;
+  outline: none;
   color: #fff;
+  cursor: pointer;
   font-size: 20px;
   border-radius: 6px;
   background-color: blue;
@@ -61,7 +64,6 @@
 
 .button:hover {
   background-color: green;
-  cursor: pointer;
 }
 
 .closeButton {
