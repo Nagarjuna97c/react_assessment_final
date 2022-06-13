@@ -4,7 +4,7 @@ import HomeCSS from "./home.module.css";
 import Booking from "../Booking/booking";
 import SuccessMessage from "../Booking/successMessage";
 
-const cities = ["Bangalore", "Hyderabad", "Vijayawada"];
+const cities = ["Bangalore", "Hyderabad", "Vijayawada", "Goa"];
 
 const Home = () => {
   const [displayBusdata, setdisplayBusdata] = useState();
@@ -19,8 +19,6 @@ const Home = () => {
   const travelDateRef = useRef();
 
   let busData = localStorage.getItem("busesData");
-
-  console.log("component rendered");
 
   let filteredBuses;
 

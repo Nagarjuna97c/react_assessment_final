@@ -24,7 +24,7 @@ const Booking = (props) => {
   const [isAgeValid, setIsAgeValid] = useState(false);
   const [isAgeTouched, setIsAgeTouched] = useState(false);
 
-  const ticketsRef = useRef();
+  const ticketsRef = useRef(0);
   const nameRef = useRef();
   const emailRef = useRef();
   const phoneNumberRef = useRef();
@@ -170,6 +170,8 @@ const Booking = (props) => {
     }
   };
 
+  console.log(ticketsRef.current.value);
+
   const isTicketsInvalid = !isValidTickets && isTicketsTouched;
   const isNameInvalid = !isValidName && isNameTouched;
   const isEmailInvalid = !isValidEmailEntered && isEmailTouched;
@@ -296,6 +298,12 @@ const Booking = (props) => {
             <option value="Other">Other</option>
           </select>
         </div>
+        <h1 className={bookingCSS.totalPriceHeading}>
+          Total Ticket Price:
+          <span className={bookingCSS.totalPrice}>
+            Rs.{(ticketsRef.current.value || 0) * props.busData.price}
+          </span>
+        </h1>
         <div className={bookingCSS.buttonsContainer}>
           <button type="submit" className={bookingCSS.button}>
             Book Now

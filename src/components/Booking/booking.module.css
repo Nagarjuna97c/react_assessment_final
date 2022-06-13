@@ -94,3 +94,13 @@
   font-size: 20px;
   border-radius: 6px;
 }
+
+.totalPriceHeading {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.totalPrice {
+  font-weight: bold;
+  color: blue;
+}
