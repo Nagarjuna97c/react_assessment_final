@@ -33,7 +33,11 @@ const Booking = (props) => {
   const validateTicketsHandler = () => {
     const tickets = ticketsRef.current.value.trim();
 
-    if (tickets === "" || 1 >= parseInt(tickets) >= props.busData.tickets) {
+    if (
+      tickets === "" ||
+      1 >= parseInt(tickets) ||
+      parseInt(tickets) >= props.busData.tickets
+    ) {
       setIsValidTickets(false);
     }
     setIsTicketsTouched(true);
@@ -77,7 +81,11 @@ const Booking = (props) => {
   const validateNumberHandler = () => {
     const number = phoneNumberRef.current.value.trim();
 
-    if (number === "" || 0 >= parseInt(number) >= 9999999999) {
+    if (
+      number === "" ||
+      9000000000 >= parseInt(number) ||
+      parseInt(number) >= 9999999999
+    ) {
       setIsvalidNumber(false);
     }
     setIsNumberTouched(true);
